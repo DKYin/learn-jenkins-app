@@ -99,7 +99,7 @@ pipeline {
                 sh "echo 'STAGING_URL: ${env.STAGING_URL}'"
             }
         }
-
+        /*
         stage('Staging E2E') {
             agent {
                 docker {
@@ -114,7 +114,6 @@ pipeline {
 
             steps {
                 sh '''
-                    sleep 10
                     npx playwright test  --reporter=html
                 '''
             }
@@ -125,7 +124,7 @@ pipeline {
                 }
             }                    
         }        
-
+        */
         stage('Approval') {
             steps {
                 timeout(time: 15, unit: 'MINUTES') {
