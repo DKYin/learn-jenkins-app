@@ -4,6 +4,7 @@ pipeline {
     environment {
         NETLIFY_SITE_ID = 'bf50643c-b161-4f87-a60d-2cacec057d52'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
+        REACT_APP_VERSION = '1.2.3'
     }
 
     stages {
@@ -96,8 +97,7 @@ pipeline {
                     echo "Deploy to staging. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json  
-                    CI_ENVIRONMENT_URL=$(node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)   
-                    echo "STAGING_URL: $CI_ENVIRONMENT_URL"                             
+                    CI_ENVIRONMENT_URL=$(node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)                              
                     npx playwright test  --reporter=html
                 '''
             }
@@ -108,14 +108,6 @@ pipeline {
                 }
             }                    
         }        
-        
-        stage('Approval') {
-            steps {
-                timeout(time: 15, unit: 'MINUTES') {
-                    input message: 'Do you wish to deploy to production?', ok: 'Yes, I am sure I want to deploy!'
-                }
-            }
-        }
 
         stage('Deploy prod') {
             agent {
