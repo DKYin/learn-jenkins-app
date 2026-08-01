@@ -98,7 +98,7 @@ pipeline {
                 }
             }
         }
-
+        /*
         stage('Staging E2E') {
             agent {
                 docker {
@@ -123,7 +123,7 @@ pipeline {
                 }
             }                    
         }        
-
+        */
         stage('Approval') {
             steps {
                 timeout(time: 15, unit: 'MINUTES') {
